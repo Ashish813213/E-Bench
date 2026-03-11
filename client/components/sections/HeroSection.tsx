@@ -127,7 +127,7 @@ export default function HeroSection() {
         {/* Buttons */}
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
           <a
-            href="#features"
+            href="/auth"
             style={{
               background: "linear-gradient(135deg,#8B6914,#C4963A)",
               color: "#fff",

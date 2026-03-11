@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const NAV_LINKS = [
   { label: "Home", href: "#hero" },
@@ -17,23 +18,34 @@ export default function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 40);
+
+
       const sections = NAV_LINKS.map((l) => l.href.replace("#", ""));
       let current = "hero";
+
       sections.forEach((id) => {
         const el = document.getElementById(id);
-        if (el && window.scrollY >= el.offsetTop - 200) current = id;
+        if (el && window.scrollY >= el.offsetTop - 200) {
+          current = id;
+        }
       });
+
       setActive(current);
     };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+
+
   }, []);
 
   return (
     <nav
       style={{
         position: "fixed",
-        top: 0, left: 0, right: 0,
+        top: 0,
+        left: 0,
+        right: 0,
         zIndex: 1000,
         background: "rgba(253,250,243,0.94)",
         backdropFilter: "blur(16px)",
@@ -49,28 +61,62 @@ export default function Navbar() {
       }}
     >
       {/* Logo */}
-      <a href="#hero" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-        <div style={{
-          width: 36, height: 36, borderRadius: "50%",
-          background: "linear-gradient(135deg,#1A2C42,#243552)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 16,
-        }}>⚖️</div>
+      <a
+        href="#hero"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+          textDecoration: "none",
+        }}
+      >
+        <div
+          style={{
+            width: 36,
+            height: 36,
+            borderRadius: "50%",
+            background: "linear-gradient(135deg,#1A2C42,#243552)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: 16,
+          }}
+        >
+          ⚖️ </div>
+
+        ```
         <div>
-          <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 17, fontWeight: 700, color: "#1A2C42", letterSpacing: 1 }}>
+          <div
+            style={{
+              fontFamily: "'Playfair Display',serif",
+              fontSize: 17,
+              fontWeight: 700,
+              color: "#1A2C42",
+              letterSpacing: 1,
+            }}
+          >
             E-Bench
           </div>
-          <div style={{ fontSize: 9, letterSpacing: "2.5px", textTransform: "uppercase", color: "#A07820" }}>
+
+          <div
+            style={{
+              fontSize: 9,
+              letterSpacing: "2.5px",
+              textTransform: "uppercase",
+              color: "#A07820",
+            }}
+          >
             Digital Justice
           </div>
         </div>
       </a>
 
-      {/* Links */}
+      {/* Navigation Links */}
       <ul style={{ display: "flex", gap: 34, listStyle: "none" }}>
         {NAV_LINKS.map(({ label, href }) => {
           const id = href.replace("#", "");
           const isActive = active === id;
+
           return (
             <li key={href}>
               <a
@@ -86,43 +132,57 @@ export default function Navbar() {
                 }}
               >
                 {label}
-                <span style={{
-                  position: "absolute", bottom: 0, left: 0, right: 0,
-                  height: 2, background: "#C4963A",
-                  transform: isActive ? "scaleX(1)" : "scaleX(0)",
-                  transformOrigin: "left",
-                  transition: "transform 0.3s",
-                  display: "block",
-                }} />
+
+                <span
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: 2,
+                    background: "#C4963A",
+                    transform: isActive ? "scaleX(1)" : "scaleX(0)",
+                    transformOrigin: "left",
+                    transition: "transform 0.3s",
+                    display: "block",
+                  }}
+                />
               </a>
             </li>
           );
         })}
       </ul>
 
-      {/* CTA */}
-      <a
-        href="#contact"
+      {/* Login / Get Started Button */}
+      <Link
+        href="/auth"
         style={{
           background: "linear-gradient(135deg,#8B6914,#C4963A)",
           color: "#fff",
-          fontSize: 13, fontWeight: 500,
-          padding: "9px 22px", borderRadius: 6,
-          textDecoration: "none", letterSpacing: "0.3px",
+          fontSize: 13,
+          fontWeight: 500,
+          padding: "9px 22px",
+          borderRadius: 6,
+          textDecoration: "none",
+          letterSpacing: "0.3px",
           boxShadow: "0 2px 12px rgba(139,105,20,0.3)",
           transition: "all 0.3s",
         }}
         onMouseEnter={(e) => {
-          (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-1px)";
-          (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 6px 20px rgba(139,105,20,0.4)";
+          const el = e.currentTarget;
+          el.style.transform = "translateY(-1px)";
+          el.style.boxShadow = "0 6px 20px rgba(139,105,20,0.4)";
         }}
         onMouseLeave={(e) => {
-          (e.currentTarget as HTMLAnchorElement).style.transform = "";
-          (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 2px 12px rgba(139,105,20,0.3)";
+          const el = e.currentTarget;
+          el.style.transform = "";
+          el.style.boxShadow = "0 2px 12px rgba(139,105,20,0.3)";
         }}
       >
         Login / Get Started
-      </a>
+      </Link>
     </nav>
-  );
+
+
+);
 }
