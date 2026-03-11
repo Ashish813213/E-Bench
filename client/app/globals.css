@@ -174,3 +174,14 @@ body {
 .corner-tr { top: 12px; right: 12px; border-width: 1.5px 1.5px 0 0; }
 .corner-bl { bottom: 12px; left: 12px; border-width: 0 0 1.5px 1.5px; }
 .corner-br { bottom: 12px; right: 12px; border-width: 0 1.5px 1.5px 0; }
+@keyframes floatBalance {
+  0% {
+    transform: translateY(0px) rotateY(0deg);
+  }
+  50% {
+    transform: translateY(-18px) rotateY(5deg);
+  }
+  100% {
+    transform: translateY(0px) rotateY(0deg);
+  }
+}
