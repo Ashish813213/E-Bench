@@ -16,6 +16,11 @@ type Message = {
     ikSources?: IKSource[];
 };
 
+const THEME_COLOR = "#C8B48A";
+const THEME_DARK = "#8D7A55";
+const THEME_SOFT = "#F5EFE4";
+const THEME_BORDER = "#E7D9BE";
+
 export default function ChatConversationPage() {
     const { id } = useParams<{ id: string }>();
     const router = useRouter();
@@ -134,16 +139,22 @@ export default function ChatConversationPage() {
     return (
         <div className="flex flex-col flex-1 min-h-0 h-full border border-[#E2E8F0] rounded-2xl bg-white shadow-sm overflow-hidden relative">
             {/* Header */}
-            <div className="h-14 border-b border-[#E2E8F0] bg-gradient-to-r from-[#F5F7FA] via-[#EEF4FF] to-[#E6F0FF] px-4 flex items-center gap-3 shrink-0">
+            <div className="h-14 border-b px-4 flex items-center gap-3 shrink-0" style={{ borderColor: THEME_BORDER, background: `linear-gradient(to right, #FBF8F1, ${THEME_SOFT}, #F0E6D3)` }}>
                 <button
+<<<<<<< HEAD
                     onClick={() => router.push("/dashboard/my-chats")}
                     className="p-1.5 rounded-lg hover:bg-[#0F2854]/10 transition-colors"
+=======
+                    onClick={() => router.push("/chats")}
+                    className="p-1.5 rounded-lg transition-colors"
+                    style={{ color: THEME_DARK }}
+>>>>>>> e17d1cec02668653b4e338a33077db91f612d97d
                 >
-                    <ArrowLeft size={18} className="text-[#0F2854]" />
+                    <ArrowLeft size={18} className="text-inherit" />
                 </button>
-                <div className="bg-[#0F2854] text-white p-2 rounded-lg text-sm font-bold">AI</div>
+                <div className="text-white p-2 rounded-lg text-sm font-bold" style={{ backgroundColor: THEME_COLOR }}>AI</div>
                 <div>
-                    <h2 className="font-bold text-[#0F2854] text-sm">E-Bench Assistant</h2>
+                    <h2 className="font-bold text-sm" style={{ color: THEME_DARK }}>E-Bench Assistant</h2>
                     <p className="text-[11px] text-gray-500 font-medium tracking-wide flex items-center gap-1">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span> Online
                     </p>
@@ -154,27 +165,33 @@ export default function ChatConversationPage() {
             <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50">
                 {messages.map((msg) => (
                     <div key={msg.id} className={`flex gap-4 ${msg.sender === "user" ? "flex-row-reverse" : "flex-row"}`}>
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm ${msg.sender === "ai" ? "bg-[#1C4D8D] text-white" : "bg-[#BDE8F5] border border-[#1C4D8D]/20 text-[#0F2854] font-bold"}`}>
+                        <div
+                            className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm ${msg.sender === "user" ? "font-bold" : "text-white"}`}
+                            style={msg.sender === "ai"
+                                ? { backgroundColor: THEME_COLOR }
+                                : { backgroundColor: THEME_SOFT, border: `1px solid ${THEME_BORDER}`, color: THEME_DARK }}
+                        >
                             {msg.sender === "ai" ? "AI" : "YOU"}
                         </div>
                         <div className={`flex flex-col gap-2 max-w-[80%] ${msg.sender === "user" ? "items-end" : "items-start"}`}>
                             <div
                                 className={`px-5 py-3.5 rounded-2xl text-sm leading-relaxed shadow-sm ${msg.sender === "user"
-                                    ? "bg-[#0F2854] text-white rounded-tr-sm"
+                                    ? "text-white rounded-tr-sm"
                                     : "bg-white text-gray-800 border border-gray-200 rounded-tl-sm whitespace-pre-wrap"
                                     }`}
+                                style={msg.sender === "user" ? { backgroundColor: THEME_COLOR } : undefined}
                             >
                                 {msg.text}
                             </div>
                             {msg.sources && msg.sources.length > 0 && (
                                 <div className="mt-1 bg-white border border-gray-200 rounded-xl p-3 shadow-sm w-full">
-                                    <p className="text-xs font-bold uppercase tracking-wider text-[#4988C4] mb-2 flex items-center gap-1.5 border-b pb-1.5">
+                                    <p className="text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-1.5 border-b pb-1.5" style={{ color: THEME_DARK }}>
                                         Sources
                                     </p>
                                     <ul className="text-xs text-gray-600 space-y-1.5">
                                         {msg.sources.map((src, i) => (
-                                            <li key={i} className="flex gap-2 items-start group cursor-pointer hover:text-[#1C4D8D]">
-                                                <span className="mt-[2px] w-1.5 h-1.5 rounded-full bg-[#4988C4] shrink-0"></span>
+                                            <li key={i} className="flex gap-2 items-start group cursor-pointer" style={{ color: undefined }}>
+                                                <span className="mt-[2px] w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: THEME_COLOR }}></span>
                                                 <span className="underline decoration-gray-300 underline-offset-2">{src}</span>
                                             </li>
                                         ))}
@@ -186,7 +203,7 @@ export default function ChatConversationPage() {
                 ))}
                 {isTyping && (
                     <div className="flex gap-4">
-                        <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm bg-[#1C4D8D] text-white">AI</div>
+                        <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm text-white" style={{ backgroundColor: THEME_COLOR }}>AI</div>
                         <div className="px-5 py-3 rounded-2xl rounded-tl-sm text-sm bg-white text-gray-700 border border-gray-200 shadow-sm">
                             Typing...
                         </div>
@@ -198,7 +215,7 @@ export default function ChatConversationPage() {
             {/* Input */}
             <div className="p-4 bg-white border-t border-gray-200 shrink-0">
                 <form onSubmit={handleSend} className="relative flex items-end gap-2">
-                    <div className="flex-1 border border-gray-300 rounded-2xl bg-[#F5F7FA] focus-within:bg-white focus-within:border-[#4988C4] focus-within:ring-1 focus-within:ring-[#4988C4] transition-all overflow-hidden flex shadow-sm">
+                    <div className="flex-1 border border-gray-300 rounded-2xl bg-[#F5F7FA] focus-within:bg-white transition-all overflow-hidden flex shadow-sm" style={{ borderColor: THEME_BORDER }}>
                         <input
                             type="text"
                             value={input}
@@ -210,7 +227,8 @@ export default function ChatConversationPage() {
                     <button
                         type="submit"
                         disabled={!input.trim() || isTyping}
-                        className="w-14 h-[54px] rounded-2xl bg-[#0F2854] text-white flex items-center justify-center disabled:opacity-50 disabled:bg-gray-400 hover:bg-[#1C4D8D] transition-colors shrink-0 shadow-sm border border-[#0F2854]"
+                        className="w-14 h-[54px] rounded-2xl text-white flex items-center justify-center disabled:opacity-50 disabled:bg-gray-400 transition-colors shrink-0 shadow-sm"
+                        style={{ backgroundColor: THEME_COLOR, border: `1px solid ${THEME_COLOR}` }}
                     >
                         Send
                     </button>

@@ -30,11 +30,13 @@ type Message = {
     copied?: boolean;
 };
 
-function formatTime(iso: string) {
-    return new Date(iso).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" });
-}
+const THEME_COLOR = "#C8B48A";
+const THEME_DARK = "#8D7A55";
+const THEME_SOFT = "#F6F0E4";
+const THEME_BORDER = "#E7D9BE";
+const THEME_PANEL = "#FBF8F2";
 
-export default function AIChatPage() {
+export default function ChatPage() {
     const chatIdRef = useRef<string>(`chat_${Date.now()}`);
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState("");
@@ -44,6 +46,10 @@ export default function AIChatPage() {
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages, isTyping]);
+
+    function formatTime(iso: string) {
+        return new Date(iso).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" });
+    }
 
     // Persist to localStorage whenever messages change
     useEffect(() => {
@@ -122,14 +128,14 @@ export default function AIChatPage() {
         <div className="flex flex-col flex-1 min-h-0 h-full rounded-2xl border border-gray-100 shadow-sm overflow-hidden bg-white">
 
             {/* ── Header ── */}
-            <div className="flex items-center justify-between px-5 py-3.5 bg-gradient-to-r from-[#0B1E45] via-[#0F2854] to-[#1C4D8D] shrink-0">
+            <div className="flex items-center justify-between px-5 py-3.5 shrink-0" style={{ backgroundColor: THEME_COLOR }}>
                 <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-xl bg-white/15 border border-white/20 flex items-center justify-center">
-                        <Sparkles size={16} className="text-yellow-300" />
+                        <Sparkles size={16} className="text-white" />
                     </div>
                     <div>
                         <h1 className="font-bold text-white text-[15px]">AI Legal Assistant</h1>
-                        <p className="text-[10px] text-blue-200 flex items-center gap-1.5 mt-0.5">
+                        <p className="text-[10px] text-white/80 flex items-center gap-1.5 mt-0.5">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
                             Ask legal questions and get AI-powered answers
                         </p>
@@ -146,16 +152,16 @@ export default function AIChatPage() {
             </div>
 
             {/* ── Chat Body ── */}
-            <div className="flex-1 overflow-y-auto min-h-0 bg-[#F8FAFC]">
+            <div className="flex-1 overflow-y-auto min-h-0" style={{ backgroundColor: THEME_PANEL }}>
                 <div className={isEmpty ? "h-full flex flex-col items-center justify-center p-6" : "p-6"}>
                     {isEmpty ? (
                         /* Welcome / Suggested Questions */
                         <div className="flex flex-col items-center gap-8 w-full max-w-2xl">
                             <div className="text-center">
-                                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0F2854] to-[#4988C4] flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg" style={{ background: `linear-gradient(135deg, ${THEME_DARK}, ${THEME_COLOR})` }}>
                                     <Scale size={26} className="text-white" />
                                 </div>
-                                <h2 className="text-xl font-bold text-[#0F2854]" style={{ fontFamily: "'Playfair Display', serif" }}>
+                                <h2 className="text-xl font-bold" style={{ fontFamily: "'Playfair Display', serif", color: THEME_DARK }}>
                                     E-Bench Legal AI
                                 </h2>
                                 <p className="text-sm text-gray-500 mt-1.5 max-w-md mx-auto">
@@ -167,13 +173,14 @@ export default function AIChatPage() {
                                     <button
                                         key={q}
                                         onClick={() => sendMessage(q)}
-                                        className="flex items-center gap-3 p-3.5 rounded-xl bg-white border border-gray-200 hover:border-[#4988C4] hover:shadow-sm transition-all group text-left"
+                                        className="flex items-center gap-3 p-3.5 rounded-xl bg-white border hover:shadow-sm transition-all group text-left"
+                                        style={{ borderColor: THEME_BORDER }}
                                     >
-                                        <div className="w-8 h-8 rounded-lg bg-[#EEF4FF] flex items-center justify-center shrink-0 group-hover:bg-[#0F2854] transition-colors">
-                                            <Icon size={14} className="text-[#1C4D8D] group-hover:text-white transition-colors" />
+                                        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors" style={{ backgroundColor: THEME_SOFT }}>
+                                            <Icon size={14} style={{ color: THEME_DARK }} />
                                         </div>
-                                        <span className="text-xs font-medium text-gray-700 group-hover:text-[#0F2854] transition-colors leading-snug flex-1">{q}</span>
-                                        <ChevronRight size={13} className="text-gray-300 group-hover:text-[#4988C4] shrink-0 transition-colors" />
+                                        <span className="text-xs font-medium text-gray-700 leading-snug flex-1">{q}</span>
+                                        <ChevronRight size={13} className="text-gray-300 shrink-0 transition-colors" style={{ color: THEME_DARK }} />
                                     </button>
                                 ))}
                             </div>
@@ -184,24 +191,34 @@ export default function AIChatPage() {
                             {messages.map(msg => (
                                 <div key={msg.id} className={`flex gap-3 ${msg.sender === "user" ? "flex-row-reverse" : "flex-row"}`}>
                                     {/* Avatar */}
-                                    <div className={`w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 shadow-sm self-start mt-1 ${msg.sender === "ai" ? "bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] text-white" : "bg-[#EEF4FF] text-[#0F2854] border border-[#C8DEFF]"}`}>
+                                    <div
+                                        className={`w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 shadow-sm self-start mt-1 ${msg.sender === "ai" ? "text-white" : ""}`}
+                                        style={msg.sender === "ai"
+                                            ? { background: `linear-gradient(135deg, ${THEME_DARK}, ${THEME_COLOR})` }
+                                            : { backgroundColor: THEME_SOFT, color: THEME_DARK, border: `1px solid ${THEME_BORDER}` }}
+                                    >
                                         {msg.sender === "ai" ? "AI" : "YOU"}
                                     </div>
                                     <div className={`flex flex-col gap-2 max-w-[78%] ${msg.sender === "user" ? "items-end" : "items-start"}`}>
                                         {/* Main bubble */}
-                                        <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed shadow-sm ${msg.sender === "user" ? "bg-[#0F2854] text-white rounded-tr-sm" : "bg-white text-gray-800 border border-gray-200 rounded-tl-sm whitespace-pre-wrap"}`}>
+                                        <div
+                                            className={`px-4 py-3 rounded-2xl text-sm leading-relaxed shadow-sm ${msg.sender === "user" ? "text-white rounded-tr-sm" : "bg-white text-gray-800 border rounded-tl-sm whitespace-pre-wrap"}`}
+                                            style={msg.sender === "user"
+                                                ? { backgroundColor: THEME_COLOR }
+                                                : { borderColor: THEME_BORDER }}
+                                        >
                                             {msg.text}
                                         </div>
                                         {/* Referenced Laws */}
                                         {msg.sections && msg.sections.length > 0 && (
-                                            <div className="bg-white border border-[#D8E6FF] rounded-xl p-3.5 w-full shadow-sm">
-                                                <p className="flex items-center gap-1.5 text-[10px] font-bold text-[#0F2854] uppercase tracking-wider mb-2.5 pb-2 border-b border-gray-100">
-                                                    <Scale size={11} className="text-[#4988C4]" /> Referenced Laws
+                                            <div className="bg-white border rounded-xl p-3.5 w-full shadow-sm" style={{ borderColor: THEME_BORDER }}>
+                                                <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider mb-2.5 pb-2 border-b border-gray-100" style={{ color: THEME_DARK }}>
+                                                    <Scale size={11} style={{ color: THEME_COLOR }} /> Referenced Laws
                                                 </p>
                                                 <ul className="space-y-1.5">
                                                     {msg.sections.map((s, i) => (
                                                         <li key={i} className="flex items-start gap-2 text-xs text-gray-700">
-                                                            <span className="w-4 h-4 rounded-full bg-[#EEF4FF] text-[#1C4D8D] flex items-center justify-center text-[9px] font-bold shrink-0 mt-0.5">{i + 1}</span>
+                                                            <span className="w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold shrink-0 mt-0.5" style={{ backgroundColor: THEME_SOFT, color: THEME_DARK }}>{i + 1}</span>
                                                             <span><strong>{s.document}</strong> — §{s.section_number}: {s.title}</span>
                                                         </li>
                                                     ))}
@@ -210,14 +227,14 @@ export default function AIChatPage() {
                                         )}
                                         {/* Relevant Judgements */}
                                         {msg.ikResults && msg.ikResults.length > 0 && (
-                                            <div className="bg-[#FFFDF5] border border-[#E8D9A8] rounded-xl p-3.5 w-full shadow-sm">
-                                                <p className="flex items-center gap-1.5 text-[10px] font-bold text-[#7C5C00] uppercase tracking-wider mb-2.5 pb-2 border-b border-yellow-100">
-                                                    <Gavel size={11} className="text-[#C49A10]" /> Relevant Judgements
+                                            <div className="border rounded-xl p-3.5 w-full shadow-sm" style={{ backgroundColor: THEME_SOFT, borderColor: THEME_BORDER }}>
+                                                <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider mb-2.5 pb-2 border-b" style={{ color: THEME_DARK, borderColor: THEME_BORDER }}>
+                                                    <Gavel size={11} style={{ color: THEME_COLOR }} /> Relevant Judgements
                                                 </p>
                                                 <ul className="space-y-1.5">
                                                     {msg.ikResults.map((ik, i) => (
                                                         <li key={i} className="flex items-start gap-2 text-xs text-gray-700">
-                                                            <span className="w-4 h-4 rounded-full bg-[#FFFBEB] text-[#C49A10] flex items-center justify-center text-[9px] font-bold shrink-0 mt-0.5">{i + 1}</span>
+                                                            <span className="w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold shrink-0 mt-0.5" style={{ backgroundColor: "#FFF8EC", color: THEME_DARK }}>{i + 1}</span>
                                                             <span><strong>{ik.title}</strong>{ik.headline ? <span className="text-gray-400"> — {ik.headline.slice(0, 90)}</span> : null}</span>
                                                         </li>
                                                     ))}
@@ -231,14 +248,16 @@ export default function AIChatPage() {
                                                 <>
                                                     <button
                                                         onClick={() => handleCopy(msg.id, msg.text)}
-                                                        className={`flex items-center gap-1 text-[10px] transition-colors ${msg.copied ? "text-emerald-600" : "text-gray-400 hover:text-[#1C4D8D]"}`}
+                                                        className={`flex items-center gap-1 text-[10px] transition-colors ${msg.copied ? "text-emerald-600" : "text-gray-400"}`}
+                                                        style={!msg.copied ? { color: THEME_DARK } : undefined}
                                                     >
                                                         {msg.copied ? <CheckCheck size={11} /> : <Copy size={11} />}
                                                         {msg.copied ? "Copied!" : "Copy"}
                                                     </button>
                                                     <button
                                                         onClick={() => handleSave(msg.id)}
-                                                        className={`flex items-center gap-1 text-[10px] transition-colors ${msg.saved ? "text-[#C49A10]" : "text-gray-400 hover:text-[#C49A10]"}`}
+                                                        className={`flex items-center gap-1 text-[10px] transition-colors ${msg.saved ? "" : "text-gray-400"}`}
+                                                        style={msg.saved ? { color: THEME_COLOR } : { color: THEME_DARK }}
                                                     >
                                                         <BookMarked size={11} />
                                                         {msg.saved ? "Saved" : "Save"}
@@ -252,9 +271,9 @@ export default function AIChatPage() {
                             {/* Typing Indicator */}
                             {isTyping && (
                                 <div className="flex gap-3">
-                                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] text-white flex items-center justify-center text-[10px] font-bold shrink-0 self-start mt-1 shadow-sm">AI</div>
+                                    <div className="w-9 h-9 rounded-full text-white flex items-center justify-center text-[10px] font-bold shrink-0 self-start mt-1 shadow-sm" style={{ background: `linear-gradient(135deg, ${THEME_DARK}, ${THEME_COLOR})` }}>AI</div>
                                     <div className="px-4 py-3.5 bg-white rounded-2xl rounded-tl-sm border border-gray-200 shadow-sm flex items-center gap-1.5">
-                                        <style>{`.ebd{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4988C4} @keyframes ebB{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}} .ebd:nth-child(1){animation:ebB 1.2s ease infinite 0s} .ebd:nth-child(2){animation:ebB 1.2s ease infinite .15s} .ebd:nth-child(3){animation:ebB 1.2s ease infinite .3s}`}</style>
+                                        <style>{`.ebd{display:inline-block;width:7px;height:7px;border-radius:50%;background:${THEME_COLOR}} @keyframes ebB{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}} .ebd:nth-child(1){animation:ebB 1.2s ease infinite 0s} .ebd:nth-child(2){animation:ebB 1.2s ease infinite .15s} .ebd:nth-child(3){animation:ebB 1.2s ease infinite .3s}`}</style>
                                         <span className="ebd" /><span className="ebd" /><span className="ebd" />
                                     </div>
                                 </div>
@@ -271,10 +290,10 @@ export default function AIChatPage() {
                     onSubmit={(e) => { e.preventDefault(); sendMessage(); }}
                     className="flex items-center gap-2"
                 >
-                    <button type="button" className="p-2 rounded-xl text-gray-400 hover:text-[#4988C4] hover:bg-[#EEF4FF] transition-colors shrink-0" title="Attach file">
+                    <button type="button" className="p-2 rounded-xl text-gray-400 transition-colors shrink-0" style={{ color: THEME_DARK, backgroundColor: "transparent" }} title="Attach file">
                         <Paperclip size={17} />
                     </button>
-                    <div className="flex-1 border border-gray-200 rounded-2xl bg-[#F8FAFC] focus-within:bg-white focus-within:border-[#4988C4] focus-within:ring-2 focus-within:ring-[#4988C4]/15 transition-all">
+                    <div className="flex-1 border rounded-2xl focus-within:bg-white transition-all" style={{ borderColor: THEME_BORDER, backgroundColor: THEME_PANEL, boxShadow: `0 0 0 0 rgba(0,0,0,0)` }}>
                         <input
                             type="text"
                             value={input}
@@ -287,7 +306,8 @@ export default function AIChatPage() {
                     <button
                         type="submit"
                         disabled={!input.trim() || isTyping}
-                        className="p-3 rounded-2xl bg-[#0F2854] text-white flex items-center justify-center disabled:opacity-40 disabled:bg-gray-300 hover:bg-[#1C4D8D] transition-all shrink-0 shadow-sm"
+                        className="p-3 rounded-2xl text-white flex items-center justify-center disabled:opacity-40 disabled:bg-gray-300 transition-all shrink-0 shadow-sm"
+                        style={{ backgroundColor: THEME_COLOR }}
                     >
                         <Send size={17} />
                     </button>

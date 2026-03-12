@@ -13,7 +13,7 @@ function SearchResultsContent() {
     const results = [
         { type: "cases", icon: Scale, title: "State vs. Sharma Corp", sub: "High Court of Delhi • Fraud", link: "/cases" },
         { type: "contracts", icon: FileText, title: "Vendor Agreement 2024.docx", sub: "Medium Risk • Uploaded Oct 12", link: "/contracts" },
-        { type: "documents", icon: ShieldAlert, title: "Cyber Fraud Summary (FIR 402)", sub: "Summarized • IT Act 66D", link: "/summaries" },
+        { type: "documents", icon: ShieldAlert, title: "Cyber Fraud Summary (FIR 402)", sub: "Summarized • IT Act 66D", link: "/chats?filter=Summary" },
         { type: "articles", icon: BookOpen, title: "Understanding the RTI Act 2005", sub: "Citizen Rights • Legal Article", link: "/free-tools/law-awareness" },
     ];
 

@@ -3,7 +3,7 @@
 import { useState } from "react"
 import {
     Bell, Search, Scale, FileText, LayoutDashboard, BookOpen,
-    Shield, Download, Settings, User, ChevronLeft, ChevronRight as ChevronR,
+  Download, Settings, User, ChevronLeft, ChevronRight as ChevronR,
     Mail, Sun, Moon, Bot
 } from "lucide-react"
 import Link from "next/link"
@@ -314,9 +314,16 @@ const makeStyle = (dark :boolean) => `
 
 const mainNav = [
     { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+<<<<<<< HEAD
   { label: "AI Chatbot", href: "/dashboard/chat", icon: Bot },
   { label: "My Chats", href: "/dashboard/my-chats", icon: BookOpen },
   { label: "Judgements", href: "/summaries", icon: Scale },
+=======
+    { label: "Cases", href: "/cases", icon: Scale },
+    { label: "Contracts", href: "/contracts", icon: FileText },
+    { label: "AI Chatbot", href: "/chat", icon: Bot },
+    { label: "My Chats", href: "/chats", icon: BookOpen },
+>>>>>>> e17d1cec02668653b4e338a33077db91f612d97d
 ]
 
 const bottomNav = [
