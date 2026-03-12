@@ -502,7 +502,7 @@ export default function ProfilePage() {
                         { label: "Saved Judgements", count: 34, icon: Gavel, color: "#0F2854", bg: "#EEF4FF", href: "/cases" },
                         { label: "Saved Legal Sections", count: 87, icon: BookOpen, color: "#7C3AED", bg: "#F3EEFF", href: "/cases" },
                         { label: "Saved AI Responses", count: 152, icon: MessageSquare, color: "#0D6E4F", bg: "#ECFDF5", href: "/chats" },
-                        { label: "Research Notes", count: 21, icon: BookMarked, color: "#B45309", bg: "#FFFBEB", href: "/summaries" },
+                        { label: "Research Notes", count: 21, icon: BookMarked, color: "#B45309", bg: "#FFFBEB", href: "/chats?filter=Summary" },
                     ].map(({ label, count, icon: Icon, color, bg, href }) => (
                         <Card key={label} className="cursor-pointer hover:shadow-md transition-shadow group">
                             <div className="p-6 flex flex-col gap-4">

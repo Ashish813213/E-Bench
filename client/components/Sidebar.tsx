@@ -6,7 +6,6 @@ import {
     LayoutDashboard,
     Scale,
     FileText,
-    ShieldAlert,
     Download,
     Settings,
     User,
@@ -19,7 +18,6 @@ const navItems = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { name: "Cases", href: "/cases", icon: Scale },
     { name: "Contracts", href: "/contracts", icon: FileText },
-    { name: "Summaries", href: "/summaries", icon: ShieldAlert },
     { name: "Downloads", href: "/downloads", icon: Download },
 ];
 
