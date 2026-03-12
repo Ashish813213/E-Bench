@@ -1,8 +1,10 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
+  const router = useRouter();
 
   return (
     <div
@@ -66,6 +68,7 @@ export default function AuthPage() {
         />
 
         <button
+          onClick={() => router.push('/dashboard')}
           style={{
             width: "100%",
             background: "linear-gradient(135deg,#8B6914,#C4963A)",
