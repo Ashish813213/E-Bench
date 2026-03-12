@@ -2,14 +2,14 @@
 
 import { useState } from "react"
 import {
-    Bell, Search, Scale, FileText, LayoutDashboard, BookOpen, 
-    Shield, Download, Settings, User, ChevronLeft, ChevronRight as ChevronR, 
-    Mail, Sun, Moon
+    Bell, Search, Scale, FileText, LayoutDashboard, BookOpen,
+    Shield, Download, Settings, User, ChevronLeft, ChevronRight as ChevronR,
+    Mail, Sun, Moon, Bot
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
-const makeStyle = (dark) => `
+const makeStyle = (dark :boolean) => `
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -316,7 +316,8 @@ const mainNav = [
     { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { label: "Cases", href: "/cases", icon: Scale },
     { label: "Contracts", href: "/contracts", icon: FileText },
-    { label: "Chats", href: "/chats", icon: BookOpen },
+    { label: "AI Chatbot", href: "/chat", icon: Bot },
+    { label: "My Chats", href: "/chats", icon: BookOpen },
     { label: "Summaries", href: "/summaries", icon: Shield },
 ]
 
@@ -331,7 +332,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const [dark, setDark] = useState(false)
     const pathname = usePathname()
     const css = makeStyle(dark)
-    const activeLabel = [...mainNav, ...bottomNav].find(nav => pathname.startsWith(nav.href))?.label || "Dashboard"
+    const activeLabel = [...mainNav, ...bottomNav].find(nav =>
+        pathname === nav.href || pathname.startsWith(nav.href + "/")
+    )?.label || "Dashboard"
 
     return (
         <>
