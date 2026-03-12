@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import { useRouter } from "next/navigation"
 import {
     Scale, FileText, AlertTriangle, Newspaper,
     BookOpen, ChevronRight, Clock, Shield,
@@ -77,8 +78,22 @@ const categories = ["All", "Criminal", "Cyber Law", "Constitutional", "Civil", "
 
 export default function Dashboard() {
     const [activeCat, setActiveCat] = useState("All")
+    const [message, setMessage] = useState("")
     const { display, cursor } = useTypewriter(TAGLINES)
+    const router = useRouter()
     const userName = "Kinjal"
+
+    const handleAskClick = () => {
+        if (message.trim()) {
+            router.push(`/chat?message=${encodeURIComponent(message)}`)
+        }
+    }
+
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleAskClick()
+        }
+    }
 
     return (
         <>
@@ -104,11 +119,18 @@ export default function Dashboard() {
                     </div>
                     <div className="eb-chatbot-input-row">
                         <MessageSquare size={14} />
-                        <input className="eb-chat-input" placeholder="" style={{ caretColor: "transparent" }} />
+                        <input 
+                            className="eb-chat-input" 
+                            placeholder="" 
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            onKeyPress={handleKeyPress}
+                            style={{ caretColor: "transparent" }} 
+                        />
                         <span style={{ fontSize: 13, color: "var(--txt-light)", pointerEvents: "none", whiteSpace: "nowrap", overflow: "hidden", flex: 1, display: "flex", alignItems: "center" }}>
                             {display}<span className="eb-chat-cursor" style={{ opacity: cursor ? 1 : 0 }} />
                         </span>
-                        <button className="eb-chat-send"><Sparkles size={13} /> Ask</button>
+                        <button className="eb-chat-send" onClick={handleAskClick}><Sparkles size={13} /> Ask</button>
                     </div>
                 </div>
 

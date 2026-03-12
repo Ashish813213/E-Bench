@@ -3,10 +3,22 @@ const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
+const mongoose = require('mongoose');
+require('dotenv').config();
+
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json());
+
+// ── MongoDB Connection ──
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ebench')
+    .then(() => console.log('✓ MongoDB connected'))
+    .catch(err => console.error('✗ MongoDB connection failed:', err));
+
+// ── Routes ──
+app.use('/api/auth', authRoutes);
 
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -126,5 +138,5 @@ setInterval(() => {
   }
 }, 30 * 60 * 1000);
 
-const PORT = 4000;
-server.listen(PORT, () => console.log(`Signaling server running on :${PORT}`));
+const PORT = process.env.PORT || 4000;
+server.listen(PORT, () => console.log(`✓ Signaling server running on :${PORT}`));

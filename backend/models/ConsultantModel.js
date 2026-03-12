@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const userSchema = new mongoose.Schema({
+const consultantSchema = new mongoose.Schema({
     fullName: { 
         type: String, 
         required: true,
@@ -18,10 +18,37 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 6
     },
-    userType: {
+    licenseNumber: {
         type: String,
-        enum: ['user', 'consultant'],
-        default: 'user'
+        required: true,
+        unique: true
+    },
+    barRegistration: {
+        type: String,
+        required: true
+    },
+    specialization: {
+        type: String,
+        enum: ['criminal', 'civil', 'corporate', 'family', 'intellectual', 'labor', 'tax', 'other'],
+        required: true
+    },
+    professionalSummary: {
+        type: String,
+        maxlength: 200
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+    rating: {
+        type: Number,
+        min: 0,
+        max: 5,
+        default: 0
+    },
+    totalClients: {
+        type: Number,
+        default: 0
     },
     createdAt: {
         type: Date,
@@ -30,7 +57,7 @@ const userSchema = new mongoose.Schema({
 });
 
 // Hash password before saving
-userSchema.pre('save', async function (next) {
+consultantSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         return next();
     }
@@ -44,15 +71,15 @@ userSchema.pre('save', async function (next) {
 });
 
 // Method to compare passwords
-userSchema.methods.matchPassword = async function (enteredPassword) {
+consultantSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
 
 // Remove password from JSON response
-userSchema.methods.toJSON = function () {
+consultantSchema.methods.toJSON = function () {
     const obj = this.toObject();
     delete obj.password;
     return obj;
 };
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Consultant', consultantSchema);
