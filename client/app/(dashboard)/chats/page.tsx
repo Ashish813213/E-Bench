@@ -156,7 +156,7 @@ export default function ChatHistoryPage() {
 
     // Open existing chat
     const handleOpen = (id: string) => {
-        router.push(`/dashboard/chat/${id}`);
+        router.push(`/chat/${id}`);
     };
 
     // Toggle pin

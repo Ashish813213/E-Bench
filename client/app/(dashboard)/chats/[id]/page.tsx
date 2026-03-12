@@ -141,14 +141,9 @@ export default function ChatConversationPage() {
             {/* Header */}
             <div className="h-14 border-b px-4 flex items-center gap-3 shrink-0" style={{ borderColor: THEME_BORDER, background: `linear-gradient(to right, #FBF8F1, ${THEME_SOFT}, #F0E6D3)` }}>
                 <button
-<<<<<<< HEAD
-                    onClick={() => router.push("/dashboard/my-chats")}
-                    className="p-1.5 rounded-lg hover:bg-[#0F2854]/10 transition-colors"
-=======
                     onClick={() => router.push("/chats")}
                     className="p-1.5 rounded-lg transition-colors"
                     style={{ color: THEME_DARK }}
->>>>>>> e17d1cec02668653b4e338a33077db91f612d97d
                 >
                     <ArrowLeft size={18} className="text-inherit" />
                 </button>
