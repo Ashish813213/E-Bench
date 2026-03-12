@@ -10,7 +10,6 @@ const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
-app.use(express.json());
 
 // ── MongoDB Connection ──
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ebench')
@@ -23,6 +22,18 @@ app.use('/api/auth', authRoutes);
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: { origin: 'http://localhost:3000', methods: ['GET', 'POST'] }
+});
+
+// JWT authentication for Socket.IO connections
+io.use((socket, next) => {
+  const token = socket.handshake.auth?.token;
+  if (!token) return next(new Error('Authentication required.'));
+  try {
+    socket.user = jwt.verify(token, JWT_SECRET);
+    next();
+  } catch {
+    next(new Error('Invalid or expired token.'));
+  }
 });
 
 // ── In-memory state ──

@@ -18,7 +18,7 @@ const TAGLINES = [
     "Know your rights. Ask E-Bench.",
 ]
 
-function useTypewriter(lines, typingSpeed = 60, pauseMs = 1800, deleteSpeed = 35) {
+function useTypewriter(lines: string[], typingSpeed = 60, pauseMs = 1800, deleteSpeed = 35) {
     const [display, setDisplay] = useState("")
     const [cursor, setCursor] = useState(true)
     const lineRef = useRef(0)
@@ -31,7 +31,7 @@ function useTypewriter(lines, typingSpeed = 60, pauseMs = 1800, deleteSpeed = 35
     }, [])
 
     useEffect(() => {
-        let timeout
+        let timeout: ReturnType<typeof setTimeout>
         const tick = () => {
             const line = lines[lineRef.current]
             if (!deleting.current) {
@@ -62,7 +62,7 @@ function useTypewriter(lines, typingSpeed = 60, pauseMs = 1800, deleteSpeed = 35
 }
 
 /* ─── full CSS ─── */
-const makeStyle = (dark) => `
+const makeStyle = (dark: boolean) => `
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 

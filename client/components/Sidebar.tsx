@@ -12,7 +12,7 @@ import {
     PanelLeftClose,
     PanelLeftOpen,
 } from "lucide-react";
-import { cn } from "@/lib/utils"; // Wait, I should implement or omit this if they don't have it.
+import { cn } from "@/lib/utils";
 
 const navItems = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },

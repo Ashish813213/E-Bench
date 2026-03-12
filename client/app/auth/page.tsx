@@ -110,6 +110,8 @@ export default function AuthPage() {
         {!isLogin && (
           <input
             placeholder="Full Name"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             style={inputStyle}
           />
         )}
@@ -118,6 +120,8 @@ export default function AuthPage() {
         <input
           placeholder="Email"
           type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           style={inputStyle}
         />
 
@@ -125,6 +129,8 @@ export default function AuthPage() {
         <input
           placeholder="Password"
           type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           style={inputStyle}
         />
 
@@ -173,7 +179,8 @@ export default function AuthPage() {
 
         {/* Submit Button */}
         <button
-          onClick={() => router.push('/dashboard')}
+          onClick={handleSubmit}
+          disabled={loading}
           style={{
             width: "100%",
             background: `linear-gradient(135deg, ${themeDark}, ${themeColor})`,
@@ -196,7 +203,7 @@ export default function AuthPage() {
             e.currentTarget.style.boxShadow = "none";
           }}
         >
-          {isLogin ? "Login" : "Register"}
+          {loading ? "Please wait..." : isLogin ? "Login" : "Register"}
         </button>
 
         {/* Toggle Login/Register */}
@@ -210,7 +217,7 @@ export default function AuthPage() {
           {isLogin ? "Don't have an account?" : "Already have an account?"}
 
           <span
-            onClick={() => setIsLogin(!isLogin)}
+            onClick={() => { setIsLogin(!isLogin); setError(""); }}
             style={{
               marginLeft: 6,
               color: themeColor,
