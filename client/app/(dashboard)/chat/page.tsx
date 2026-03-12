@@ -30,16 +30,6 @@ type Message = {
     copied?: boolean;
 };
 
-export default function ChatPage() {
-    const [messages, setMessages] = useState<Message[]>([
-        { id: 1, sender: "ai", text: "Hello Adv. Kinjal! I'm your E-Bench Legal AI Assistant. How can I assist you with your case research, laws, or contracts today?" }
-    ]);
-    const [input, setInput] = useState("");
-    const [isTyping, setIsTyping] = useState(false);
-    const messagesEndRef = useRef<HTMLDivElement>(null);
-
-    const scrollToBottom = () => {
-
 function formatTime(iso: string) {
     return new Date(iso).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" });
 }

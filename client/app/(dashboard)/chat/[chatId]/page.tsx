@@ -131,7 +131,7 @@ export default function ExistingChatPage() {
             {/* ── Header ── */}
             <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-[#0B1E45] via-[#0F2854] to-[#1C4D8D] shrink-0">
                 <button
-                    onClick={() => router.push("/chats")}
+                    onClick={() => router.push("/dashboard/my-chats")}
                     className="p-1.5 rounded-lg bg-white/10 border border-white/20 text-white hover:bg-white/20 transition-colors shrink-0"
                 >
                     <ArrowLeft size={15} />

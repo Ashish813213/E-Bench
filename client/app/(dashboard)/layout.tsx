@@ -314,21 +314,13 @@ const makeStyle = (dark :boolean) => `
 
 const mainNav = [
     { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-    { label: "Cases", href: "/cases", icon: Scale },
-    { label: "Contracts", href: "/contracts", icon: FileText },
-<<<<<<< HEAD
-    { label: "Chats", href: "/chat", icon: BookOpen },
-=======
-    { label: "AI Chatbot", href: "/chat", icon: Bot },
-    { label: "My Chats", href: "/chats", icon: BookOpen },
->>>>>>> 8de402065568f940fc595602d3c1bd11762ea9ca
-    { label: "Summaries", href: "/summaries", icon: Shield },
+  { label: "AI Chatbot", href: "/dashboard/chat", icon: Bot },
+  { label: "My Chats", href: "/dashboard/my-chats", icon: BookOpen },
+  { label: "Judgements", href: "/summaries", icon: Scale },
 ]
 
 const bottomNav = [
-    { label: "Downloads", href: "/downloads", icon: Download },
     { label: "Settings", href: "/settings", icon: Settings },
-    { label: "User Profile", href: "/profile", icon: User },
 ]
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

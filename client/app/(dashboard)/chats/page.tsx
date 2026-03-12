@@ -83,12 +83,12 @@ export default function ChatHistoryPage() {
 
     // Start new chat
     const handleNewChat = () => {
-        router.push(`/chat`);
+        router.push(`/dashboard/chat`);
     };
 
     // Open existing chat
     const handleOpen = (id: string) => {
-        router.push(`/chat/${id}`);
+        router.push(`/dashboard/chat/${id}`);
     };
 
     // Toggle pin
@@ -142,7 +142,7 @@ export default function ChatHistoryPage() {
             <div className="flex items-center justify-between shrink-0">
                 <div>
                     <h1 className="text-xl font-bold text-[#0F2854]" style={{ fontFamily: "'Playfair Display', serif" }}>
-                        Chat History
+                        My Chats
                     </h1>
                     <p className="text-xs text-gray-500 mt-0.5">
                         {chats.length} conversation{chats.length !== 1 ? "s" : ""} with E-Bench AI

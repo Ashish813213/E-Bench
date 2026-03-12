@@ -136,7 +136,7 @@ export default function ChatConversationPage() {
             {/* Header */}
             <div className="h-14 border-b border-[#E2E8F0] bg-gradient-to-r from-[#F5F7FA] via-[#EEF4FF] to-[#E6F0FF] px-4 flex items-center gap-3 shrink-0">
                 <button
-                    onClick={() => router.push("/chats")}
+                    onClick={() => router.push("/dashboard/my-chats")}
                     className="p-1.5 rounded-lg hover:bg-[#0F2854]/10 transition-colors"
                 >
                     <ArrowLeft size={18} className="text-[#0F2854]" />
