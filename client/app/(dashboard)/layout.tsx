@@ -316,7 +316,7 @@ const mainNav = [
     { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { label: "Cases", href: "/cases", icon: Scale },
     { label: "Contracts", href: "/contracts", icon: FileText },
-    { label: "Chats", href: "/chats", icon: BookOpen },
+    { label: "Chats", href: "/chat", icon: BookOpen },
     { label: "Summaries", href: "/summaries", icon: Shield },
 ]
 

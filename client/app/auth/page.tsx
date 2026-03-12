@@ -4,7 +4,47 @@ import { useRouter } from "next/navigation";
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const handleSubmit = async () => {
+    setError("");
+    setLoading(true);
+    try {
+      const endpoint = isLogin
+        ? "http://localhost:4000/api/auth/login"
+        : "http://localhost:4000/api/auth/register";
+
+      const body = isLogin
+        ? { email, password }
+        : { username, email, password };
+
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message || "Something went wrong.");
+        return;
+      }
+
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      router.push("/dashboard");
+    } catch {
+      setError("Unable to connect to server.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div
@@ -51,6 +91,8 @@ export default function AuthPage() {
         {!isLogin && (
           <input
             placeholder="Full Name"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             style={inputStyle}
           />
         )}
@@ -58,17 +100,28 @@ export default function AuthPage() {
         <input
           placeholder="Email"
           type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           style={inputStyle}
         />
 
         <input
           placeholder="Password"
           type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           style={inputStyle}
         />
 
+        {error && (
+          <p style={{ color: "#c0392b", fontSize: 13, marginBottom: 8 }}>
+            {error}
+          </p>
+        )}
+
         <button
-          onClick={() => router.push('/dashboard')}
+          onClick={handleSubmit}
+          disabled={loading}
           style={{
             width: "100%",
             background: "linear-gradient(135deg,#8B6914,#C4963A)",
@@ -78,10 +131,11 @@ export default function AuthPage() {
             borderRadius: 6,
             fontWeight: 600,
             marginTop: 10,
-            cursor: "pointer",
+            cursor: loading ? "not-allowed" : "pointer",
+            opacity: loading ? 0.7 : 1,
           }}
         >
-          {isLogin ? "Login" : "Register"}
+          {loading ? "Please wait..." : isLogin ? "Login" : "Register"}
         </button>
 
         <div
@@ -94,7 +148,7 @@ export default function AuthPage() {
           {isLogin ? "Don't have an account?" : "Already have an account?"}
 
           <span
-            onClick={() => setIsLogin(!isLogin)}
+            onClick={() => { setIsLogin(!isLogin); setError(""); }}
             style={{
               marginLeft: 6,
               color: "#C4963A",
